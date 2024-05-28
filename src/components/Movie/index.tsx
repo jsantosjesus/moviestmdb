@@ -12,6 +12,7 @@ const Movie = ({image, title, duration} : MovieProps) => {
             <img src={`https://image.tmdb.org/t/p/w500/${image}`} alt={title} />
             <h3>{title}</h3>
             <p>{duration} min.</p>
+            <button className='btn-information'>Information</button>
         </div>
     );
 }
