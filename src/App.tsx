@@ -31,13 +31,13 @@ function App() {
         const responseListMovie: IMovie[] = [];
         console.log(data)
 
-        data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; }) => {
+        data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; release_date: string }) => {
           const mov: IMovie = {
             id: movie.id as string,
             img: movie.poster_path as string,
             title: movie.title as string,
             description: movie.overview as string,
-            duration: '240'
+            year: movie.release_date.substring(0, 4) as string
           }
 
           responseListMovie.push(mov);
@@ -64,13 +64,13 @@ function App() {
         const responseListMovie: IMovie[] = listMovie;
         console.log(data)
 
-        data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; }) => {
+        data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; release_date: string }) => {
           const mov: IMovie = {
             id: movie.id as string,
             img: movie.poster_path as string,
             title: movie.title as string,
             description: movie.overview as string,
-            duration: '240'
+            year: movie.release_date.substring(0, 4) as string
           }
 
           responseListMovie.push(mov);
@@ -81,7 +81,7 @@ function App() {
       })
       .catch((err) => console.log(err))
 
-  
+
   }
 
 
@@ -90,10 +90,15 @@ function App() {
       <div className='folder'>
         <AppBar />
         <img src={advengers} width="100%" />
+        <div className="title-and-button-folder">
+          <h3>Advengers</h3>
+          <p>launched in 2019</p>
+          <button>Information</button>
+        </div>
       </div>
       <div className="movies">
         {listMovie && listMovie.map((movie) => (
-          <Movie image={movie.img} title={movie.title} duration={movie.duration} />
+          <Movie image={movie.img} title={movie.title} year={movie.year} key={movie.id} search={false} />
         ))}
       </div>
       <div className="div-button-more">

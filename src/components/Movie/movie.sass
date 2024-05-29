@@ -20,6 +20,7 @@
 
     p
         font-size: 0.6rem
+
     .btn-information
         @include mixins.btn
         position: absolute
@@ -27,5 +28,33 @@
         left: 50%
         transform: translate(-50%, -50%)
         display: none
-        cursor: pointer
-    
+
+#movie-search
+    margin-top: 20px
+    min-width: 18vw
+    max-width: 18vw
+    position: relative
+    &:hover
+        img
+            opacity: 0.5
+        .btn-information
+            display: block
+
+    img
+        width: 100%
+        height: auto
+        
+    h3
+        font-size: 0.8rem
+        
+
+    p
+        font-size: 0.6rem
+
+    .btn-information
+        @include mixins.btn
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        display: none

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
 import './appbar.sass'
+import DivSearch from "../DivSearch";
+
+
 
 const AppBar = () => {
     return (
@@ -8,7 +11,7 @@ const AppBar = () => {
             <Link to=''>TOP RATED</Link>
             <Link to=''>POPULAR</Link>
             <Link to=''>UPCOMING</Link>
-            <input className="search" placeholder="SEARCH WHERE"></input>
+            <DivSearch />
         </div>
     );
 }
