@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { IMovie } from '../../entities/movie'
+import { IMovieHome } from '../../entities/movie'
 import './divSearch.sass'
 import Movie from '../Movie'
 
 
 
 const DivSearch = () => {
-    const [searchResult, setSearchResult] = useState<IMovie[]>([]);
+    const [searchResult, setSearchResult] = useState<IMovieHome[]>([]);
     // const [searchTerm, setSearchTerm] = useState<string>("");
 
     const token = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZWQ5ZTY5MGU2MjEzY2JmYjhlZDM2NTI1NjIwMTdhZSIsInN1YiI6IjY2NTEyMWM1NDhjYTZkZTdlYjczMDRkMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pwttjI0A9TDLExRkaZ_PxmOv294Ju3MuLr77j0pfMOY'
@@ -27,15 +27,14 @@ const DivSearch = () => {
                 else console.log('error: ' + resp)
             })
             .then((data) => {
-                const responseListMovie: IMovie[] = [];
+                const responseListMovie: IMovieHome[] = [];
                 console.log('data')
 
-                data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; release_date: string }) => {
-                    const mov: IMovie = {
+                data.results.map((movie: { id: string; poster_path: string; title: string; release_date: string }) => {
+                    const mov: IMovieHome = {
                         id: movie.id as string,
                         img: movie.poster_path as string,
                         title: movie.title as string,
-                        description: movie.overview as string,
                         year: movie.release_date.substring(0, 4) as string
                     }
 
@@ -59,7 +58,7 @@ const DivSearch = () => {
             <input className="search" placeholder="SEARCH WHERE" onChange={(e) => functionSearch(e.target.value)}/>
             {searchResult.length ? <div className='content-div-search'>
                 {searchResult.map((movie) => (
-                    <Movie image={movie.img} title={movie.title} year={movie.year} search={true} key={movie.id}/>
+                    <Movie id={movie.id} image={movie.img} title={movie.title} year={movie.year} search={true} key={movie.id}/>
                 ))
 
                 }

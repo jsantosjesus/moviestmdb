@@ -3,15 +3,17 @@ import advengers from './assets/advengers.webp'
 import AppBar from './components/AppBar';
 import Movie from './components/Movie';
 
-import { IMovie } from './entities/movie';
+import { IMovieHome } from './entities/movie';
 
 import './styles/home.sass'
+import Loading from './components/Loading';
 
 
 function App() {
 
-  const [listMovie, setListMovie] = useState<IMovie[]>([]);
+  const [listMovie, setListMovie] = useState<IMovieHome[]>([]);
   const [numberPage, setNumberPage] = useState<number>(2);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const token = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZWQ5ZTY5MGU2MjEzY2JmYjhlZDM2NTI1NjIwMTdhZSIsInN1YiI6IjY2NTEyMWM1NDhjYTZkZTdlYjczMDRkMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pwttjI0A9TDLExRkaZ_PxmOv294Ju3MuLr77j0pfMOY'
 
@@ -28,15 +30,14 @@ function App() {
         else console.log('error: ' + resp)
       })
       .then((data) => {
-        const responseListMovie: IMovie[] = [];
+        const responseListMovie: IMovieHome[] = [];
         console.log(data)
 
-        data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; release_date: string }) => {
-          const mov: IMovie = {
+        data.results.map((movie: { id: string; poster_path: string; title: string; release_date: string }) => {
+          const mov: IMovieHome = {
             id: movie.id as string,
             img: movie.poster_path as string,
             title: movie.title as string,
-            description: movie.overview as string,
             year: movie.release_date.substring(0, 4) as string
           }
 
@@ -44,12 +45,14 @@ function App() {
 
         })
         setListMovie(responseListMovie);
+        setLoading(false);
       })
       .catch((err) => console.log(err))
 
   }, [])
 
   const requestNextPage = () => {
+    setLoading(true)
     fetch(`https://api.themoviedb.org/3/discover/movie?page=${numberPage}`, {
       method: 'GET',
       headers: {
@@ -61,15 +64,14 @@ function App() {
         else console.log('error: ' + resp)
       })
       .then((data) => {
-        const responseListMovie: IMovie[] = listMovie;
+        const responseListMovie: IMovieHome[] = listMovie;
         console.log(data)
 
-        data.results.map((movie: { id: string; poster_path: string; title: string; overview: string; release_date: string }) => {
-          const mov: IMovie = {
+        data.results.map((movie: { id: string; poster_path: string; title: string; release_date: string }) => {
+          const mov: IMovieHome = {
             id: movie.id as string,
             img: movie.poster_path as string,
             title: movie.title as string,
-            description: movie.overview as string,
             year: movie.release_date.substring(0, 4) as string
           }
 
@@ -78,6 +80,7 @@ function App() {
         })
         setListMovie(responseListMovie);
         setNumberPage(numberPage + 1);
+        setLoading(false)
       })
       .catch((err) => console.log(err))
 
@@ -98,12 +101,12 @@ function App() {
       </div>
       <div className="movies">
         {listMovie && listMovie.map((movie) => (
-          <Movie image={movie.img} title={movie.title} year={movie.year} key={movie.id} search={false} />
+          <Movie id={movie.id} image={movie.img} title={movie.title} year={movie.year} key={movie.id} search={false} />
         ))}
       </div>
-      <div className="div-button-more">
+      {loading ? <Loading /> : <div className="div-button-more">
         <button className='button-more' onClick={requestNextPage}>View More...</button>
-      </div>
+      </div>}
     </div>
   );
 }

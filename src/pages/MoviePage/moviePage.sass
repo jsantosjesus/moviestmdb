@@ -1,0 +1,29 @@
+@use '../../styles/mixins'
+    
+#movie-page
+    margin-top: 30px
+
+    .div-content
+        display: flex
+
+        .div-img
+            margin-left: 30px
+            img
+                width: 300px
+
+    .div-informations
+        display: block
+        margin-top: 20px
+        margin-left: 10%
+        width: 50%
+        
+        p
+            margin-top: 20px
+            
+
+        button
+            @include mixins.btnviewmore
+            width: 100%
+            text-align: center
+            margin-top: 20px
+            
